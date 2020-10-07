@@ -66,13 +66,11 @@ sqoop-job --create loadcustomers -- import  --connect jdbc:mysql://quickstart:33
 
 ## Create Hive Table to load data
 
-Find complete scripts eda.hql </br
+Find complete scripts eda.hql </br>
 <code>
   create database store;</br>
-
-use store;</br>
-
-create external table product (
+  use store;</br>
+  create external table product (
 	productId int,
 	name string,
 	productnumber string,
@@ -104,4 +102,8 @@ create external table product (
 stored as parquet
 location '/user/cloudera/bigretail/output/stores/sqoop/products';
 </code>
+</br></br>
+
+![image](https://user-images.githubusercontent.com/69738890/95388093-48e5f700-08b7-11eb-9888-d706352a3f29.png)
+
 
