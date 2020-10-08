@@ -97,7 +97,7 @@ LIMIT 20;
 
 </hr>
 
-### Create exploded view of movie id and genre
+### Fetch exploded view of movie id and genre
 ```
 CREATE view movie_by_genre as SELECT movieid, genre FROM 
 (
@@ -109,7 +109,7 @@ CREATE view movie_by_genre as SELECT movieid, genre FROM
 
 </hr>
 
-### Find top 3 genres for each user
+### Top 3 genre recommendations for each user
 ```
 CREATE TEMPORARY TABLE movie_by_user_genre as 
 SELECT t1.*, t2.rating,t2.userid 
