@@ -31,31 +31,31 @@ Cloudera Quickstart VM, Winscp, Putty,
 * Import the ml-1m file to clouderavm through winscp
 
 * File is delimited by :: . Change the delimiters to comma formatted, (csv)
-
-![image](https://user-images.githubusercontent.com/69738890/95400797-2fea3f80-08d1-11eb-94e9-f73a742cfd17.png)
-
-sed -i 's/::/,/g' ml-1m/movies.dat 
-
+```
+sed -i 's/::/,/g' ml-1m/movies.dat
 sed -i 's/::/,/g' ml-1m/users.dat
-
 sed -i 's/::/,/g' ml-1m/ratings.dat
-
-![image](https://user-images.githubusercontent.com/69738890/95400931-8c4d5f00-08d1-11eb-8425-fcbecbb55146.png)
+```
+![image](https://user-images.githubusercontent.com/69738890/95400797-2fea3f80-08d1-11eb-94e9-f73a742cfd17.png)
 
 * Rename file format from .dat to .csv
 
-<code> mv ml-1m/movies.dat /ml-1m/movies.csv </code>
-<code> mv ml-1m/ratings.dat /ml-1m/ratings.csv </code>
-<code> mv ml-1m/users.dat /ml-1m/users.csv </code>
+```
+mv ml-1m/movies.dat /ml-1m/movies.csv
+mv ml-1m/ratings.dat /ml-1m/ratings.csv
+mv ml-1m/users.dat /ml-1m/users.csv
+````
 
 * Move the data into HDFS folder Movie_Lens,folder structure Movie_Lens/ml-1m
 
 ![image](https://user-images.githubusercontent.com/69738890/95402279-e7348580-08d4-11eb-9eb4-401619535409.png)
 
-* Create movies.sql,ratings.sql,users.sql</br>
-<code> nano movies.sql </code>
-<code> nano ratings.sql </code>
-<code> nano users.sql </code>
+* Create movies.sql,ratings.sql,users.sql
+```
+nano movies.sql >
+nano ratings.sql
+nano users.sql
+```
 
 Copy SQL code from the repo files movies.sql,ratings.sql,users.sql
 <code> hive -f users.sql </code>
