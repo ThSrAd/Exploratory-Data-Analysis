@@ -7,7 +7,7 @@
 * About dataset
 * Environment
 * Extract the Data
-* Hive Querying
+* Hive Querying/Explored Questions
 
 <hr>
 
@@ -67,7 +67,7 @@ OR manually execute the commands in the hive shell as shown below
 
 ![image](https://user-images.githubusercontent.com/69738890/95404381-7bedb200-08da-11eb-8aee-cb0f2d432d13.png)
 
-## EXPLORED QUESTIONS
+## Explored Questions
 
 ### Top 10 viewed movies
 ```
