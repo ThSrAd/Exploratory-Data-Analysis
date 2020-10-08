@@ -68,8 +68,9 @@ OR manually execute the commands in the hive shell as shown below
 
 ![image](https://user-images.githubusercontent.com/69738890/95404381-7bedb200-08da-11eb-8aee-cb0f2d432d13.png)
 
-# EXPLORED QUESTIONS
-##### Top 10 viewed movies
+## EXPLORED QUESTIONS
+
+### Top 10 viewed movies
 ```
 SELECT movies.MovieID,movies.Title,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
@@ -79,7 +80,9 @@ LIMIT 10;
 ```
 ![image](https://user-images.githubusercontent.com/69738890/95404826-bb68ce00-08db-11eb-94c1-bbf7bca70d1c.png)
 
-#### Top 20 rated movies having at least 40 views
+</hr>
+
+### Top 20 rated movies having at least 40 views
 ```
 SELECT movies.MovieID,movies.Title,AVG(ratings.Rating) as rtg,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
@@ -89,9 +92,12 @@ ORDER BY rtg DESC
 LIMIT 20;
 </CODE>
 ```
+
 ![image](https://user-images.githubusercontent.com/69738890/95405157-a3457e80-08dc-11eb-8b6b-b07bdaba0533.png)
 
-#### Create exploded view of movie id and genre
+</hr>
+
+### Create exploded view of movie id and genre
 ```
 CREATE view movie_by_genre as SELECT movieid, genre FROM 
 (
@@ -101,7 +107,9 @@ CREATE view movie_by_genre as SELECT movieid, genre FROM
 
 ![image](https://user-images.githubusercontent.com/69738890/95405324-18b14f00-08dd-11eb-971d-3ac31f693342.png)
 
-#### Find top 3 genres for each user
+</hr>
+
+### Find top 3 genres for each user
 ```
 CREATE TEMPORARY TABLE movie_by_user_genre as 
 SELECT t1.*, t2.rating,t2.userid 
