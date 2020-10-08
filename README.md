@@ -8,7 +8,7 @@ over large datasets
 * About dataset
 * Environment
 * Extract the Data
-* Create Sqoop Job
+* Hive Querying
 
 <hr>
 
@@ -52,13 +52,15 @@ mv ml-1m/users.dat /ml-1m/users.csv
 
 * Create movies.sql,ratings.sql,users.sql
 ```
-nano movies.sql >
+nano movies.sql
 nano ratings.sql
 nano users.sql
 ```
 
 Copy SQL code from the repo files movies.sql,ratings.sql,users.sql
-<code> hive -f users.sql </code>
+```
+hive -f users.sql
+```
 
 ![image](https://user-images.githubusercontent.com/69738890/95402545-a1c48800-08d5-11eb-9b59-3a7051eaea5c.png)
 
@@ -67,21 +69,18 @@ OR manually execute the commands in the hive shell as shown below
 ![image](https://user-images.githubusercontent.com/69738890/95404381-7bedb200-08da-11eb-8aee-cb0f2d432d13.png)
 
 # EXPLORED QUESTIONS
-##### Top 10 viewed movies</br>
-<CODE>
+##### Top 10 viewed movies
+```
 SELECT movies.MovieID,movies.Title,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
 GROUP BY movies.MovieID, movies.Title
 ORDER BY views DESC
 LIMIT 10;
-</CODE>
-</BR>
-
+```
 ![image](https://user-images.githubusercontent.com/69738890/95404826-bb68ce00-08db-11eb-94c1-bbf7bca70d1c.png)
 
-</BR>
-##### Top 20 rated movies having at least 40 views</br>
-<CODE>
+#### Top 20 rated movies having at least 40 views
+```
 SELECT movies.MovieID,movies.Title,AVG(ratings.Rating) as rtg,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
 GROUP BY movies.MovieID,movies.Title
@@ -89,31 +88,40 @@ HAVING views >= 40
 ORDER BY rtg DESC
 LIMIT 20;
 </CODE>
-</br>
-
+```
 ![image](https://user-images.githubusercontent.com/69738890/95405157-a3457e80-08dc-11eb-8b6b-b07bdaba0533.png)
 
-</br>
-
-Create exploded view of movie id and genre</br>
-<CODE>
-create view movie_by_genre as select movieid, genre from (select movieid, split(genres, '\\|') genres from movies) t lateral view explode(genres) t as genre;
-<CODE>
-</br>
+#### Create exploded view of movie id and genre
+```
+CREATE view movie_by_genre as SELECT movieid, genre FROM 
+(
+    SELECT movieid, split(genres, '\\|') genres FROM movies
+) t LATERAL VIEW EXPLODE(genres) t as genre;
+```
 
 ![image](https://user-images.githubusercontent.com/69738890/95405324-18b14f00-08dd-11eb-971d-3ac31f693342.png)
 
+#### Find top 3 genres for each user
+```
+CREATE TEMPORARY TABLE movie_by_user_genre as 
+SELECT t1.*, t2.rating,t2.userid 
+FROM movie_by_genre t1 LEFT JOIN ratings t2 
+ON t1.movieid = t2.movieid WHERE t2.rating >= 4;
+```
  
-Find top 3 genres for each user</br>
-<CODE>
-create temporary table movie_by_user_genre as select t1.*, t2.rating,t2.userid from movie_by_genre t1 left join ratings t2 on t1.movieid = t2.movieid where t2.rating >= 4;
- 
-create temporary table user_by_genre_totalrating as select userid, genre, sum(rating) total_rating from movie_by_user_genre group by userid, genre;
+```
+CREATE TEMPORARY TABLE user_by_genre_totalrating as 
+SELECT userid, genre, sum(rating) total_rating 
+FROM movie_by_user_genre GROUP BY userid, genre;
+```
 
-select * from 
-(select userid, genre, row_number() over (partition by userid order by total_rating desc) row_num from user_by_genre_totalrating) t where t.row_num <= 3;
-</CODE>
-</br>
+```
+SELECT * FROM 
+(SELECT userid, genre, ROW_NUMBER() OVER (PARTITION by userid ORDER BY total_rating desc) row_num 
+FROM user_by_genre_totalrating) t 
+WHERE t.row_num <= 3;
+```
+![image](https://user-images.githubusercontent.com/69738890/95407159-dfc7a900-08e1-11eb-91b5-92f0d76c4dc2.png)
 
 
 
