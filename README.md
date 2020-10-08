@@ -1,6 +1,5 @@
 ## SQL Analytics with HIVE
-> Aim of this project is to explore advanced features in Hive that allows us to run SQL based analytical queries 
-over large datasets 
+> Aim of this project is to explore analytical queries using Hive over large datasets 
 
 <hr>
 
