@@ -1,9 +1,6 @@
-# SQL Analytics with HIVE
+## SQL Analytics with HIVE
 > Aim of this project is to explore advanced features in Hive that allows us to run SQL based analytical queries 
-over large datasets  
-
-The source is a sample MySQL database 'Adventure works'. We will ingest and transform the data before we proceed to analytics</br> 
-Download the sample db script here - https://github.com/microsoft/sql-server-samples/tree/master/samples/databases
+over large datasets 
 
 <hr>
 
@@ -16,9 +13,13 @@ Download the sample db script here - https://github.com/microsoft/sql-server-sam
 <hr>
 
 ## About dataset
-Adventure Works Cycles, a fictitious multinational manufacturing company that produces and distributes metal and composite bicycles to commercial markets in 
-North America, Europe, and Asia. Headquartered in Bothell, WA, employs 500 or more additionally with several regional sales teams throughout its market base.
+MovieLens data sets were collected by the GroupLens Research Project at the University of Minnesota.
+This data set consists of
+100,000 ratings (1-5) from 943 users upon 1682 movies.
+Each user has rated at least 20 movies.
+Simple demographic info for the users (age, gender, occupation, zip)
 
+Dataset Link: https://grouplens.org/datasets/movielens/1m/
 <hr>
 
 ## Environment
@@ -27,83 +28,45 @@ Cloudera Quickstart VM, Winscp, Putty,
 <hr>
 
 ## Extract and Transform the Data
-- Login to your Cloudera VM</br>
-- Import the .sql script file AWBackup.sql into vm using winscp</br>
-- Connect to the default mySQL provided as shown below</br>
+* Import the ml-1m file to clouderavm through winscp
 
-![image](https://user-images.githubusercontent.com/69738890/95378397-775cd580-08a9-11eb-992d-92e093c2e9df.png)
+* File is delimited by :: . Change the delimiters to comma formatted, (csv) </br>
 
-- Quit and return back to your vm .Now import the sql script into mysql db,this automatically creates database and tables for you</br>
+![image](https://user-images.githubusercontent.com/69738890/95400797-2fea3f80-08d1-11eb-94e9-f73a742cfd17.png)
 
-![image](https://user-images.githubusercontent.com/69738890/95378599-c440ac00-08a9-11eb-9731-f1bc7418a169.png)
+</br>
+<code>
+sed -i 's/::/,/g' ml-1m/movies.dat </br>
+sed -i 's/::/,/g' ml-1m/users.dat </br>
+sed -i 's/::/,/g' ml-1m/ratings.dat </br>
+</code>
+</br>
 
-- Connect to mySql DB,the Adventure works database would have been created</br>
+![image](https://user-images.githubusercontent.com/69738890/95400931-8c4d5f00-08d1-11eb-8425-fcbecbb55146.png)
 
-![image](https://user-images.githubusercontent.com/69738890/95382976-0f5dbd80-08b0-11eb-8018-caf1494f1929.png)
+</br>
 
-- Create views v_customer,v_salesorderdetails,v_salesorderheader. Views draw data from several tables all aggregations are performed in the views to create denormalized data</br>
-
-![image](https://user-images.githubusercontent.com/69738890/95385021-05898980-08b3-11eb-82c6-191c96959d41.png)
-
-<hr>
-
-## Ingest Data via Sqoop Job
-
-- Use sqoop to transfer the data from mysql DB to HDFS. This gets incremental data updates from sql to the HDFS.</br>
-Find complete scripts sqoop-job-commands </br>
+* Rename file format from .dat to .csv </br>
 
 <code>
-sqoop-job --create loadcustomers -- import  --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
---table v_customer  --as-parquetfile --target-dir /user/cloudera/bigretail/output/stores/sqoop/customers  --append \
---split-by CustomerID --num-mappers 1 --check-column ModifiedDate --incremental lastmodified \
---password-file /user/cloudera/passwordfile 
+mv ml-1m/movies.dat /ml-1m/movies.csv </br>
+mv ml-1m/ratings.dat /ml-1m/ratings.csv </br>
+mv ml-1m/users.dat /ml-1m/users.csv </br>
 </code>
-</br> </br>
+</br>
 
-![image](https://user-images.githubusercontent.com/69738890/95385662-e93a1c80-08b3-11eb-9f5f-d54cd14516a2.png)
+* Move the data into HDFS folder MovieLens</br>
 
-<hr>
+![image](https://user-images.githubusercontent.com/69738890/95402279-e7348580-08d4-11eb-9eb4-401619535409.png)
 
-## Create Hive Table to load data
+</br>
 
-Find complete scripts eda.hql </br>
-<code>
-  create database store;</br>
-  use store;</br>
-  create external table product (
-	productId int,
-	name string,
-	productnumber string,
-	makeflag boolean,
-	finishedgoodsflag boolean,
-	color string,
-	safetystocklevel int,
-	reorderpoint int,
-	standardcost double,
-	listprice double,
-	size string,
-	sizeunitmeasurecode string,
-	weightunitmeasurecode string,
-	weight string,
-	daystomanufacture int,
-	productline string,
-	class string,
-	style string,
-	sellstartdate bigint,
-	sellenddate bigint
-	discontinueddate bigint,
-	productsubcategory string,
-	productcategory string,
-	producemodel string,
-	catalogdescription string,
-	instructions string,
-	modifieddate bigint
-)
-stored as parquet
-location '/user/cloudera/bigretail/output/stores/sqoop/products';
-</code>
-</br></br>
 
-![image](https://user-images.githubusercontent.com/69738890/95388093-48e5f700-08b7-11eb-9888-d706352a3f29.png)
+
+
+
+
+
+
 
 
