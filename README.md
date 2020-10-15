@@ -1,4 +1,4 @@
-## SQL Analytics with HIVE
+## Exploratory Data Analysis with HIVE
 > Aim of this project is to explore analytical queries using Hive over large datasets 
 
 <hr>
