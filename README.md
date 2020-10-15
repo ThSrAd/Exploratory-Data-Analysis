@@ -12,7 +12,7 @@
 <hr>
 
 ## About dataset
-MovieLens data sets were collected by the GroupLens Research Project at the University of Minnesota.</br>
+MovieLens data set was compiled by the GroupLens Research Project at the University of Minnesota.</br>
 This data set consists of</br>
 100,000 ratings (1-5) from 943 users upon 1682 movies</br>
 Each user has rated at least 20 movies</br>
