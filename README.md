@@ -1,9 +1,8 @@
-## Exploratory Data Analysis with HIVE
+#### Exploratory Data Analysis with HIVE
+Author: Thanujhaa Sriee (email: thanujhaa.sriee@gmail.com)
 > Aim of this project is to explore analytical queries using Hive over large datasets 
 
-<hr>
-
-## Table of Contents
+#### Table of Contents
 * About dataset
 * Environment
 * Extract the Data
@@ -11,7 +10,7 @@
 
 <hr>
 
-## About dataset
+#### About dataset
 MovieLens data set was compiled by the GroupLens Research Project at the University of Minnesota.</br>
 This data set consists of</br>
 100,000 ratings (1-5) from 943 users upon 1682 movies</br>
@@ -21,12 +20,12 @@ Simple demographic info for the users (age, gender, occupation, zip)</br>
 Dataset Link: https://grouplens.org/datasets/movielens/1m/
 <hr>
 
-## Environment
+#### Environment
 Cloudera Quickstart VM, Winscp, Putty, 
 
 <hr>
 
-## Extract and Transform the Data
+#### Extract and Transform the Data
 * Import the ml-1m file to clouderavm through winscp
 
 * File is delimited by :: . Change the delimiters to comma formatted, (csv)
@@ -67,9 +66,9 @@ OR manually execute the commands in the hive shell as shown below
 
 ![image](https://user-images.githubusercontent.com/69738890/95404381-7bedb200-08da-11eb-8aee-cb0f2d432d13.png)
 
-## Explored Questions
+#### Explored Questions
 
-### Top 10 viewed movies
+#### Top 10 viewed movies
 ```
 SELECT movies.MovieID,movies.Title,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
@@ -81,7 +80,7 @@ LIMIT 10;
 
 </hr>
 
-### Top 20 rated movies having at least 40 views
+#### Top 20 rated movies having at least 40 views
 ```
 SELECT movies.MovieID,movies.Title,AVG(ratings.Rating) as rtg,COUNT(DISTINCT ratings.UserID) as views
 FROM movies JOIN ratings ON (movies.MovieID = ratings.MovieID)
@@ -108,7 +107,7 @@ CREATE view movie_by_genre as SELECT movieid, genre FROM
 
 </hr>
 
-### Top 3 genre recommendations for each user
+#### Top 3 genre recommendations for each user
 ```
 CREATE TEMPORARY TABLE movie_by_user_genre as 
 SELECT t1.*, t2.rating,t2.userid 
