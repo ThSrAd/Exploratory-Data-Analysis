@@ -1,4 +1,4 @@
-#### Exploratory Data Analysis with HIVE
+# Exploratory Data Analysis with HIVE
 Author: Thanujhaa Sriee (email: thanujhaa.sriee@gmail.com)
 > Aim of this project is to explore analytical queries using Hive over large datasets 
 
